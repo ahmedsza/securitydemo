@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RetroCertsRoute /> basic route 1`] = `
+<Route
+  path="/path"
+>
+  <TestComponent />
+</Route>
+`;
+
+exports[`<RetroCertsRoute /> route in production (should be PageNotFound) 1`] = `
+<Route
+  isProduction={true}
+  path="/path"
+>
+  <TestComponent />
+</Route>
+`;
+
+exports[`<RetroCertsRoute /> route needing auth with authToken 1`] = `
+<Route
+  path="/path"
+>
+  <div>
+    Loading...
+  </div>
+</Route>
+`;
+
+exports[`<RetroCertsRoute /> route needing auth with user data 1`] = `
+<Route
+  computedMatch={Object {}}
+  path="/path"
+>
+  <Redirect
+    push={true}
+  />
+</Route>
+`;
+
+exports[`<RetroCertsRoute /> route needing auth, but no data 1`] = `
+<Route
+  path="/path"
+>
+  <Redirect
+    push={true}
+  />
+</Route>
+`;

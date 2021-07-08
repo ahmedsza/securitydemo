@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RetroCertsAuthPage /> retro certs auth page 1`] = `
+<div
+  id="overflow-wrapper"
+>
+  <Header />
+  <main
+    id="certification-page"
+  >
+    <div
+      className="container p-4"
+    >
+      <h1>
+        Retroactive Certification for Unemployment
+      </h1>
+      <p>
+        The retroactive certification period ended on November 21, 2020.
+        <a
+          href="https://edd.ca.gov/Unemployment/retro-certify.htm"
+        >
+          For more information, click here.
+        </a>
+      </p>
+    </div>
+  </main>
+  <Footer
+    backToTopTag="certification-page"
+  />
+</div>
+`;
+
+exports[`<RetroCertsAuthPage /> retro certs auth page with captcha timeout error 1`] = `
+<div
+  id="overflow-wrapper"
+>
+  <Header />
+  <main
+    id="certification-page"
+  >
+    <div
+      className="container p-4"
+    >
+      <h1>
+        Retroactive Certification for Unemployment
+      </h1>
+      <p>
+        The retroactive certification period ended on November 21, 2020.
+        <a
+          href="https://edd.ca.gov/Unemployment/retro-certify.htm"
+        >
+          For more information, click here.
+        </a>
+      </p>
+    </div>
+  </main>
+  <Footer
+    backToTopTag="certification-page"
+  />
+</div>
+`;
+
+exports[`<RetroCertsAuthPage /> retro certs auth page with session timeout 1`] = `
+<div
+  id="overflow-wrapper"
+>
+  <Header />
+  <main
+    id="certification-page"
+  >
+    <div
+      className="container p-4"
+    >
+      <h1>
+        Retroactive Certification for Unemployment
+      </h1>
+      <p>
+        The retroactive certification period ended on November 21, 2020.
+        <a
+          href="https://edd.ca.gov/Unemployment/retro-certify.htm"
+        >
+          For more information, click here.
+        </a>
+      </p>
+    </div>
+  </main>
+  <Footer
+    backToTopTag="certification-page"
+  />
+</div>
+`;
+
+exports[`<RetroCertsAuthPage /> retro certs auth page with user not found error 1`] = `
+<div
+  id="overflow-wrapper"
+>
+  <Header />
+  <main
+    id="certification-page"
+  >
+    <div
+      className="container p-4"
+    >
+      <h1>
+        Retroactive Certification for Unemployment
+      </h1>
+      <p>
+        The retroactive certification period ended on November 21, 2020.
+        <a
+          href="https://edd.ca.gov/Unemployment/retro-certify.htm"
+        >
+          For more information, click here.
+        </a>
+      </p>
+    </div>
+  </main>
+  <Footer
+    backToTopTag="certification-page"
+  />
+</div>
+`;

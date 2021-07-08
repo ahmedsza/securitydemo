@@ -1,0 +1,201 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Header /> renders the component 1`] = `
+<header
+  className="header border-bottom border-secondary"
+>
+  <Navbar
+    bg="primary"
+    className="justify-content-between"
+    collapseOnSelect={false}
+    expand={true}
+    variant="custom"
+  >
+    <NavbarBrand
+      href="https://ca.gov"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        alt="California gov logo"
+        height="30"
+        src="images/Ca-Gov-Logo-Gold.svg"
+        width="30"
+      />
+    </NavbarBrand>
+    <Nav
+      fill={false}
+      justify={false}
+    >
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          alt="home icon"
+          className="icon"
+          height="15"
+          src="images/home.svg"
+          width="15"
+        />
+         
+        <span
+          className="text"
+        >
+          Home
+        </span>
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov/login.htm"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          <img
+            alt="key icon"
+            className="icon"
+            height="15"
+            src="images/key.svg"
+            width="15"
+          />
+           
+          <span
+            className="text"
+          >
+            Log In
+          </span>
+        </span>
+      </NavLink>
+    </Nav>
+  </Navbar>
+  <Navbar
+    collapseOnSelect={true}
+    expand="md"
+    variant="light"
+  >
+    <NavbarBrand
+      href="https://edd.ca.gov"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        alt="California gov logo"
+        className="d-inline-block align-top mr-5"
+        height="50"
+        src="images/edd-logo-2-Color.svg"
+        width="150"
+      />
+    </NavbarBrand>
+    <NavbarToggle
+      aria-controls="responsive-navbar-nav"
+      label="Toggle navigation"
+    />
+    <NavbarCollapse
+      className="justify-content-between ml-5 mr-5 pl-5"
+    >
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov/jobs.htm"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Jobs
+        </span>
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov/claims.htm"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Claims
+        </span>
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov/employers.htm"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Employers
+        </span>
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov/newsroom.htm"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Newsroom
+        </span>
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov/serp.html?q="
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Search
+        </span>
+      </NavLink>
+    </NavbarCollapse>
+  </Navbar>
+</header>
+`;

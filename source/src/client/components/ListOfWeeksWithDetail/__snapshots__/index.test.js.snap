@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ListOfWeeksWithDetail /> renders the component 1`] = `
+Array [
+  <WeekWithDetail
+    index={0}
+    key="0"
+    showContentArray={
+      Array [
+        true,
+        true,
+        true,
+        true,
+      ]
+    }
+    toggleContent={[MockFunction]}
+    weekData={
+      Object {
+        "couldNotAcceptWork": false,
+        "didYouLook": false,
+        "refuseWork": false,
+        "schoolOrTraining": false,
+        "tooSick": false,
+        "workOrEarn": false,
+      }
+    }
+    weekIndex={1}
+    weekProgramPlan="UI full time"
+  />,
+  <WeekWithDetail
+    index={1}
+    key="1"
+    showContentArray={
+      Array [
+        true,
+        true,
+        true,
+        true,
+      ]
+    }
+    toggleContent={[MockFunction]}
+    weekData={
+      Object {
+        "couldNotAcceptWork": false,
+        "didYouLook": false,
+        "refuseWork": false,
+        "schoolOrTraining": false,
+        "tooSick": false,
+        "workOrEarn": false,
+      }
+    }
+    weekIndex={2}
+    weekProgramPlan="UI full time"
+  />,
+  <WeekWithDetail
+    index={2}
+    key="2"
+    showContentArray={
+      Array [
+        true,
+        true,
+        true,
+        true,
+      ]
+    }
+    toggleContent={[MockFunction]}
+    weekData={
+      Object {
+        "couldNotAcceptWork": false,
+        "didYouLook": false,
+        "refuseWork": false,
+        "schoolOrTraining": false,
+        "tooSick": false,
+        "workOrEarn": false,
+      }
+    }
+    weekIndex={3}
+    weekProgramPlan="UI full time"
+  />,
+]
+`;

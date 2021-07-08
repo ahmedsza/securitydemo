@@ -1,0 +1,29 @@
+node_modules
+
+# .css and .js files in public/ are created during compile process
+public/**/*.css
+public/**/*.js
+public/**/*.map
+public/**/*.js.license.txt
+
+# .hot files are generated for hot reloading
+public/.hot/*
+
+# Manifest files are generated during the compile process
+src/**/manifest-*.json
+
+# static locales
+public/locales
+
+# static index
+public/index.html
+
+# Test output
+test-output
+
+# Config data that shouldn't be checked into the repo
+.env
+
+# User json files
+batch_users.json
+test_users.json

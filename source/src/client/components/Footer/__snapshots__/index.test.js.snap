@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Footer /> renders the component 1`] = `
+<footer
+  className="footer"
+>
+  <Navbar
+    bg="dark"
+    className="justify-content-between"
+    collapseOnSelect={false}
+    expand={true}
+    variant="custom"
+  >
+    <Nav
+      className="flex-wrap"
+      fill={false}
+      justify={false}
+    >
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="/#back-to-top"
+      >
+        Back to Top
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov/about_edd/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        About EDD
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov/about_edd/contact_edd.htm"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Contact EDD
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov/about_edd/conditions_of_use.htm"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Conditions of Use
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov/about_edd/privacy_policy.htm"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Privacy Policy
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov/about_edd/accessibility.htm"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Accessibility
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://edd.ca.gov/sitemap.htm"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Site Map
+      </NavLink>
+    </Nav>
+    <Nav
+      className="flex-wrap"
+      fill={false}
+      justify={false}
+    >
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://www.facebook.com/californiaedd/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          alt="Facebook icon"
+          height="15"
+          src="images/facebook.svg"
+          width="15"
+        />
+         
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://twitter.com/CA_EDD"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          alt="Twitter icon"
+          height="15"
+          src="images/twitter.svg"
+          width="15"
+        />
+         
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://www.linkedin.com/company/californiaedd/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          alt="LinkedIn icon"
+          height="15"
+          src="images/linkedin.svg"
+          width="15"
+        />
+         
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://www.instagram.com/ca_edd/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          alt="Instagram icon"
+          height="15"
+          src="images/instagram.svg"
+          width="15"
+        />
+         
+      </NavLink>
+      <NavLink
+        as={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "SafeAnchor",
+            "render": [Function],
+          }
+        }
+        disabled={false}
+        href="https://www.youtube.com/user/CaliforniaEDD"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          alt="YouTube icon"
+          height="15"
+          src="images/youtube.svg"
+          width="15"
+        />
+         
+      </NavLink>
+    </Nav>
+  </Navbar>
+  <div
+    className="bg-light secondary-footer"
+  >
+    <Container
+      fluid={false}
+    >
+      Copyright © 2020 State of California
+    </Container>
+  </div>
+</footer>
+`;

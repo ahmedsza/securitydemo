@@ -1,0 +1,402 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TabbedContainer /> renders the component 1`] = `
+<Container
+  fluid={false}
+>
+  <TabContainer
+    activeKey={0}
+    id="left-tabs"
+  >
+    <Row
+      className="tabbed-container"
+      noGutters={false}
+    >
+      <Col
+        className="TabbedContainer"
+        sm={4}
+      >
+        <Nav
+          className="flex-column sidebar-sticky"
+          fill={false}
+          justify={false}
+          variant="pills"
+        >
+          <NavItem
+            key="0"
+          >
+            <NavLink
+              as={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "displayName": "Link",
+                  "propTypes": Object {
+                    "innerRef": [Function],
+                    "onClick": [Function],
+                    "replace": [Function],
+                    "target": [Function],
+                    "to": [Function],
+                  },
+                  "render": [Function],
+                }
+              }
+              disabled={false}
+              eventKey={0}
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              to="/guide/benefits"
+            >
+              Start here
+            </NavLink>
+             
+          </NavItem>
+          <NavItem
+            key="1"
+          >
+            <NavLink
+              as={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "displayName": "Link",
+                  "propTypes": Object {
+                    "innerRef": [Function],
+                    "onClick": [Function],
+                    "replace": [Function],
+                    "target": [Function],
+                    "to": [Function],
+                  },
+                  "render": [Function],
+                }
+              }
+              disabled={false}
+              eventKey={1}
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              to="/guide/before-you-apply"
+            >
+              What you need before you apply
+            </NavLink>
+             
+          </NavItem>
+          <NavItem
+            key="2"
+          >
+            <NavLink
+              as={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "displayName": "Link",
+                  "propTypes": Object {
+                    "innerRef": [Function],
+                    "onClick": [Function],
+                    "replace": [Function],
+                    "target": [Function],
+                    "to": [Function],
+                  },
+                  "render": [Function],
+                }
+              }
+              disabled={false}
+              eventKey={2}
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              to="/guide/how-to-apply"
+            >
+              How to apply
+            </NavLink>
+             
+          </NavItem>
+          <NavItem
+            key="3"
+          >
+            <NavLink
+              as={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "displayName": "Link",
+                  "propTypes": Object {
+                    "innerRef": [Function],
+                    "onClick": [Function],
+                    "replace": [Function],
+                    "target": [Function],
+                    "to": [Function],
+                  },
+                  "render": [Function],
+                }
+              }
+              disabled={false}
+              eventKey={3}
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              to="/guide/after-you-submit"
+            >
+              After you submit your application
+            </NavLink>
+             
+          </NavItem>
+          <NavItem
+            key="4"
+          >
+            <NavLink
+              as={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "displayName": "Link",
+                  "propTypes": Object {
+                    "innerRef": [Function],
+                    "onClick": [Function],
+                    "replace": [Function],
+                    "target": [Function],
+                    "to": [Function],
+                  },
+                  "render": [Function],
+                }
+              }
+              disabled={false}
+              eventKey={4}
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              to="/guide/receive-benefits"
+            >
+              Receive your benefits
+            </NavLink>
+             
+          </NavItem>
+          <NavItem
+            key="5"
+          >
+            <NavLink
+              as={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "displayName": "Link",
+                  "propTypes": Object {
+                    "innerRef": [Function],
+                    "onClick": [Function],
+                    "replace": [Function],
+                    "target": [Function],
+                    "to": [Function],
+                  },
+                  "render": [Function],
+                }
+              }
+              disabled={false}
+              eventKey={5}
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              to="/guide/more-resources"
+            >
+              More resources
+            </NavLink>
+             
+          </NavItem>
+        </Nav>
+      </Col>
+      <Col
+        sm={8}
+      >
+        <ForwardRef>
+          <Switch>
+            <Route
+              key="0"
+              path="/guide/benefits"
+            >
+              <TabPaneContentOnMount
+                tabIndex={0}
+              />
+              <h2>
+                Start here
+              </h2>
+              <TabPaneContent0 />
+              <Button
+                active={false}
+                as={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "displayName": "Link",
+                    "propTypes": Object {
+                      "innerRef": [Function],
+                      "onClick": [Function],
+                      "replace": [Function],
+                      "target": [Function],
+                      "to": [Function],
+                    },
+                    "render": [Function],
+                  }
+                }
+                disabled={false}
+                onClick={[Function]}
+                to="/guide/before-you-apply"
+                type="button"
+                variant="secondary"
+              >
+                Next: What you need before you apply
+              </Button>
+            </Route>
+            <Route
+              key="1"
+              path="/guide/before-you-apply"
+            >
+              <TabPaneContentOnMount
+                tabIndex={1}
+              />
+              <h2>
+                What you need before you apply
+              </h2>
+              <TabPaneContent1 />
+              <Button
+                active={false}
+                as={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "displayName": "Link",
+                    "propTypes": Object {
+                      "innerRef": [Function],
+                      "onClick": [Function],
+                      "replace": [Function],
+                      "target": [Function],
+                      "to": [Function],
+                    },
+                    "render": [Function],
+                  }
+                }
+                disabled={false}
+                onClick={[Function]}
+                to="/guide/how-to-apply"
+                type="button"
+                variant="secondary"
+              >
+                Next: How to apply
+              </Button>
+            </Route>
+            <Route
+              key="2"
+              path="/guide/how-to-apply"
+            >
+              <TabPaneContentOnMount
+                tabIndex={2}
+              />
+              <h2>
+                How to apply
+              </h2>
+              <TabPaneContent2 />
+              <Button
+                active={false}
+                as={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "displayName": "Link",
+                    "propTypes": Object {
+                      "innerRef": [Function],
+                      "onClick": [Function],
+                      "replace": [Function],
+                      "target": [Function],
+                      "to": [Function],
+                    },
+                    "render": [Function],
+                  }
+                }
+                disabled={false}
+                onClick={[Function]}
+                to="/guide/after-you-submit"
+                type="button"
+                variant="secondary"
+              >
+                Next: After you submit your application
+              </Button>
+            </Route>
+            <Route
+              key="3"
+              path="/guide/after-you-submit"
+            >
+              <TabPaneContentOnMount
+                tabIndex={3}
+              />
+              <h2>
+                After you submit your application
+              </h2>
+              <TabPaneContent3 />
+              <Button
+                active={false}
+                as={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "displayName": "Link",
+                    "propTypes": Object {
+                      "innerRef": [Function],
+                      "onClick": [Function],
+                      "replace": [Function],
+                      "target": [Function],
+                      "to": [Function],
+                    },
+                    "render": [Function],
+                  }
+                }
+                disabled={false}
+                onClick={[Function]}
+                to="/guide/receive-benefits"
+                type="button"
+                variant="secondary"
+              >
+                Next: Receive your benefits
+              </Button>
+            </Route>
+            <Route
+              key="4"
+              path="/guide/receive-benefits"
+            >
+              <TabPaneContentOnMount
+                tabIndex={4}
+              />
+              <h2>
+                Receive your benefits
+              </h2>
+              <TabPaneContent4 />
+              <Button
+                active={false}
+                as={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "displayName": "Link",
+                    "propTypes": Object {
+                      "innerRef": [Function],
+                      "onClick": [Function],
+                      "replace": [Function],
+                      "target": [Function],
+                      "to": [Function],
+                    },
+                    "render": [Function],
+                  }
+                }
+                disabled={false}
+                onClick={[Function]}
+                to="/guide/more-resources"
+                type="button"
+                variant="secondary"
+              >
+                Next: More resources
+              </Button>
+            </Route>
+            <Route
+              key="5"
+              path="/guide/more-resources"
+            >
+              <TabPaneContentOnMount
+                tabIndex={5}
+              />
+              <h2>
+                More resources
+              </h2>
+              <TabPaneContent5 />
+            </Route>
+            <Redirect
+              from="/"
+              to="/guide/benefits"
+            />
+          </Switch>
+        </ForwardRef>
+      </Col>
+    </Row>
+  </TabContainer>
+</Container>
+`;

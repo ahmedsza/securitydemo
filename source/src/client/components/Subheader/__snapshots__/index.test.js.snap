@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Subheader /> renders vertical navigation bar 1`] = `
+<div
+  className="bg-light"
+>
+  <div
+    className="container p-4"
+  >
+    <h1>
+      Guide to applying for unemployment benefits
+    </h1>
+    <p>
+      Learn what type of benefits you qualify for and how to apply for them.
+    </p>
+    <p>
+      If you are out of work or had your hours reduced, you may be eligible to receive unemployment benefits from California’s Employment Development Department (EDD).
+    </p>
+    <p>
+      First register or log in at Benefit Programs Online, then apply for unemployment benefits on UI Online℠.
+    </p>
+    <div
+      className="btn-toolbar"
+      role="toolbar"
+    >
+      <div
+        className="mr-4 mb-4"
+      >
+        <BPOButton />
+      </div>
+      <div>
+        <LanguageSelector />
+      </div>
+    </div>
+  </div>
+</div>
+`;

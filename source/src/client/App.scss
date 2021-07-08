@@ -1,0 +1,233 @@
+// Any bootstrap variables we're overwriting must be defined before importing bootstrap.
+// These variables are found here: https://github.com/twbs/bootstrap/blob/master/scss/_variables.scss
+
+$primary: #046b99 !default; //medium blue
+$secondary: #fdb81e !default; //yellowish gold
+$background: #e2e3e5 !default; // medium gray
+$success-bg: #d4edda !default; // light seafoam green
+$danger-bg: #f8d7da !default; // light red
+$in-progress: #faeac7 !default; // light yellow
+
+$font-size-base: 1.2rem !default;
+
+$line-height-base: 1.7 !default;
+$line-height-sm: 1.45 !default;
+$line-height-lg: 2.2 !default;
+
+$paragraph-margin-bottom: 1.2rem !default;
+
+$h1-font-size: $font-size-base * 2 !default;
+$h2-font-size: $font-size-base * 2 !default;
+$h3-font-size: $font-size-base * 1.5 !default;
+$h4-font-size: $font-size-base * 1.25 !default;
+
+$btn-border-width: 2px !default;
+
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap");
+
+$font-family-sans-serif: "Source Sans Pro", sans-serif !default;
+
+@import "bootstrap/scss/bootstrap";
+
+// Components: Self-contained pieces of the UI, typically with an
+// accompanying JS component
+@import "components/Header/index";
+@import "components/Footer/index";
+@import "components/TabbedContainer/index";
+@import "components/DisasterQuestion/index";
+@import "pages/RetroCertsAuthPage/index";
+@import "pages/RetroCertsConfirmationPage/index";
+@import "pages/StaffViewConfirmationPage/index";
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+
+h2 {
+  margin-bottom: 2rem;
+}
+
+h3 {
+  margin-bottom: 0.8rem;
+}
+
+legend {
+  font-size: inherit;
+}
+
+a {
+  text-decoration: underline;
+}
+
+.btn,
+.nav-link {
+  text-decoration: none;
+}
+
+input[type="radio"] {
+  -ms-transform: scale(1.01); /* IE */
+  -moz-transform: scale(1.01); /* FF */
+  -webkit-transform: scale(1.01); /* Safari and Chrome */
+  -o-transform: scale(1.01); /* Opera */
+  transform: scale(1.01);
+  padding: 10px;
+}
+
+.btn {
+  font-weight: bold;
+}
+
+// Style the checkbox in a successful alert.
+.checkmark {
+  height: 2rem;
+  width: 2rem;
+  margin-right: 0.8rem;
+}
+
+// Eliminate whitespace overflow on right half of mobile viewport
+// None of the usual solutions are compatible with sticky elements
+// But this solution is: https://stackoverflow.com/a/59019025/6074728
+#overflow-wrapper {
+  touch-action: pan-y pinch-zoom;
+}
+
+// Needed for IE11: https://stackoverflow.com/a/35820454/6074728
+main {
+  display: block;
+}
+
+// This keeps the footer at the bottom of the page, even if the main
+// content is short. This doesn't work in IE, but degrades reasonably
+// well (the content doesnt grow if needed).
+#overflow-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+header {
+  flex: 0 0 auto;
+}
+main {
+  flex: 1 0 auto;
+}
+footer {
+  flex: 0 0 auto;
+}
+
+// This removes the green border around validated fields.
+.form-control.is-valid,
+.was-validated .form-control:valid {
+  border-color: rgb(206, 212, 218) !important;
+}
+
+// This removes the green/red text on Yes/No radio labels.
+.form-check-input.is-valid ~ .form-check-label,
+.was-validated .form-check-input:valid ~ .form-check-label,
+.form-check-input.is-invalid ~ .form-check-label,
+.was-validated .form-check-input:invalid ~ .form-check-label {
+  color: inherit;
+}
+
+// Use grey for secondary alerts rather than our secondary color yellowish gold.
+.alert-secondary {
+  color: #383d41;
+  background-color: $background;
+  border-color: #d6d8db;
+}
+
+// For radio Form.Checks, we need to manually see if the
+// radio question was answered for the feedback to show.
+.was-validated .unchecked .invalid-feedback {
+  display: block;
+  color: #cc2435;
+}
+
+// For help text on pages and components
+.help-text {
+  font-size: 18px;
+  color: #666;
+}
+
+// This helps keep the certification pages from becoming too wide
+#certification-page {
+  .container {
+    max-width: 800px !important;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  h2 {
+    margin-bottom: 0.5rem;
+  }
+}
+
+// This is for increasing the contrast of follow-up questions
+.follow-up {
+  margin: 8px -8px 0px;
+  padding: 0.5rem;
+  background-color: white;
+}
+
+input[name="disaster-question"].form-check-input {
+  margin-right: 0.5rem;
+}
+
+#certification-page {
+  // This resets the language toggle button to not inherit the changes we made to the form questions background
+  button.bg-light,
+  .bg-light.btn {
+    padding: 6px 12px !important;
+    background-color: #f8f9fa !important;
+  }
+
+  .bg-light {
+    background-color: #f5f5f5 !important;
+    padding: 1rem 1rem 0.5rem 1rem !important;
+  }
+
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  legend.form-label {
+    margin-bottom: 4px;
+  }
+
+  small.help-text {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+#certification-page.questions {
+  label.form-label {
+    margin-bottom: 0;
+  }
+  div.form-group {
+    margin-top: 0 !important;
+    margin-bottom: 1rem;
+  }
+}
+
+body {
+  color: #222222;
+}
+
+@mixin blockquote($color) {
+  padding: 0 1rem;
+  margin: 1rem 0;
+  border-left: 0.3rem solid $color;
+}
+
+.highlight-blockquote {
+  @include blockquote($secondary);
+}
+
+.subtle-blockquote {
+  @include blockquote($background);
+}

@@ -1,0 +1,157 @@
+trigger:
+  branches:
+    include:
+    - main
+
+variables:
+  ENVIRONMENT: prod
+  AZURE_RESOURCE_GROUP_CONNECTION: AzureCredentials
+  AZURE_RESOURCE_GROUP_LOCATION: 'westus2'
+  AZURE_RESOURCE_GROUP_LOCATION_SECONDARY: 'eastus2'
+  AZURE_RESOURCE_GROUP_NAME: californiadepartmentoftechnology-borjagr-b4847
+
+stages:
+
+- stage: Build
+  pool:
+      vmImage: ubuntu-latest
+  jobs:
+    - job:
+      steps:
+        - task: NodeTool@0 
+          inputs:
+            versionSpec: 14.15.0
+
+        - script: | 
+            npm install
+            npm run build
+            zip -r $(Build.ArtifactStagingDirectory)/artifact.zip .
+          workingDirectory: unemployment
+
+        - publish: $(Build.ArtifactStagingDirectory)/artifact.zip
+          artifact: artifact 
+        
+- stage: prod
+  pool:
+    vmImage: ubuntu-latest
+  jobs:
+
+  - job: deploy
+    steps:
+    
+    - script: |
+            DNS_PREFIX=catech$(echo $AZURE_RESOURCE_GROUP_NAME | grep -o '[^-]*$')
+            echo "##vso[task.setvariable variable=DNS_PREFIX]$DNS_PREFIX"
+      displayName: 'Generate dns prefix for resources'
+      env:
+        AZURE_RESOURCE_GROUP_NAME: ${{ variables.AZURE_RESOURCE_GROUP_NAME }}
+
+    - task: AzureCLI@1
+      displayName: Set Terraform backend
+      inputs:
+        azureSubscription: ${{ variables.AZURE_RESOURCE_GROUP_CONNECTION }}
+        scriptLocation: inlineScript
+        inlineScript: |
+            STORAGE_ACCOUNT_NAME=$(echo $DNS_PREFIX)terraform
+            CONTAINER_NAME=tsstate
+
+            # Create storage account
+            az storage account create --resource-group $AZURE_RESOURCE_GROUP_NAME --name $STORAGE_ACCOUNT_NAME --sku Standard_LRS --location $AZURE_RESOURCE_GROUP_LOCATION
+
+            # Get storage account key
+            ACCOUNT_KEY=$(az storage account keys list --resource-group $AZURE_RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query '[0].value' -o tsv)
+
+            # Create blob container
+            az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME --account-key $ACCOUNT_KEY
+
+            echo "##vso[task.setvariable variable=STORAGE_ACCOUNT_NAME]$STORAGE_ACCOUNT_NAME"
+            echo "##vso[task.setvariable variable=CONTAINER_NAME]$CONTAINER_NAME"
+        addSpnToEnvironment: true
+      env:
+        AZURE_RESOURCE_GROUP_NAME: ${{ variables.AZURE_RESOURCE_GROUP_NAME }}
+        AZURE_RESOURCE_GROUP_LOCATION: ${{ variables.AZURE_RESOURCE_GROUP_LOCATION }}
+
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+          sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+          sudo apt-get update && sudo apt-get install terraform
+
+    - task: AzureCLI@1
+      displayName: Terraform credentials
+      inputs:
+        azureSubscription: ${{ variables.AZURE_RESOURCE_GROUP_CONNECTION }}
+        scriptLocation: inlineScript
+        inlineScript: |
+          set -eu
+          subscriptionId=$(az account show --query id -o tsv)
+          echo "##vso[task.setvariable variable=ARM_CLIENT_ID]$servicePrincipalId"
+          echo "##vso[task.setvariable variable=ARM_CLIENT_SECRET;issecret=true]$servicePrincipalKey"
+          echo "##vso[task.setvariable variable=ARM_SUBSCRIPTION_ID]$subscriptionId"
+          echo "##vso[task.setvariable variable=ARM_TENANT_ID]$tenantId"
+        addSpnToEnvironment: true
+
+    - task: AzureCLI@1
+      displayName: Terraform init
+      inputs:
+        azureSubscription: ${{ variables.AZURE_RESOURCE_GROUP_CONNECTION }}
+        scriptLocation: inlineScript
+        inlineScript: |
+          set -eux  # fail on error
+          subscriptionId=$(az account show --query id -o tsv)
+
+          terraform init \
+            -backend-config=storage_account_name=$(STORAGE_ACCOUNT_NAME) \
+            -backend-config=container_name=$(CONTAINER_NAME) \
+            -backend-config=resource_group_name=$AZURE_RESOURCE_GROUP_NAME \
+            -backend-config=subscription_id=$subscriptionId \
+            -backend-config=tenant_id=$tenantId \
+            -backend-config=client_id=$servicePrincipalId \
+            -backend-config=client_secret="$servicePrincipalKey"
+        workingDirectory: 'unemployment/deployment/terraform'
+        addSpnToEnvironment: true
+      env:
+        AZURE_RESOURCE_GROUP_NAME: ${{ variables.AZURE_RESOURCE_GROUP_NAME }}
+
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        workingDirectory: 'unemployment/deployment/terraform'
+        script: |
+          set -eu
+          terraform workspace select unemploymentprod || terraform workspace new unemploymentprod
+      displayName: Terraform workspace
+
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        workingDirectory: 'unemployment/deployment/terraform'
+        script: |
+          set -eu
+          export ARM_CLIENT_SECRET=$(ARM_CLIENT_SECRET)
+          export TF_VAR_dns_prefix=$(DNS_PREFIX)
+          terraform apply -auto-approve
+      displayName: Terraform apply
+      env:
+        TF_VAR_resource_group_name: ${{ variables.AZURE_RESOURCE_GROUP_NAME }}
+
+    - download: current
+      artifact: artifact
+
+    - script: unzip $(Pipeline.Workspace)/artifact/artifact.zip -d artifact
+
+    - task: AzureWebApp@1
+      inputs:
+        azureSubscription: ${{ variables.AZURE_RESOURCE_GROUP_CONNECTION }}
+        appName: $(DNS_PREFIX)-unemployment-${{ variables.ENVIRONMENT }}-${{variables.AZURE_RESOURCE_GROUP_LOCATION}}
+        package: 'artifact'
+        appType: webAppLinux
+
+    - task: AzureWebApp@1
+      inputs:
+        azureSubscription: ${{ variables.AZURE_RESOURCE_GROUP_CONNECTION }}
+        appName: $(DNS_PREFIX)-unemployment-${{ variables.ENVIRONMENT }}-${{variables.AZURE_RESOURCE_GROUP_LOCATION_SECONDARY}}
+        package: 'artifact'
+        appType: webAppLinux

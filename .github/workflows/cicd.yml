@@ -1,0 +1,294 @@
+name: EDD website - CI/CD workflow
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+    ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+    ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+    ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+    ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    AZURE_RESOURCE_GROUP_LOCATION: westus2
+    AZURE_RESOURCE_GROUP_LOCATION_SECONDARY: eastus2
+    AZURE_RESOURCE_GROUP_NAME: cdt-devsecops-build2021
+
+jobs:
+  codeQL:
+    name: Code scanning
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
+
+  build:
+    needs: codeQL
+    runs-on: ubuntu-latest
+    name: Build solution
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.15.0
+      
+      - name: 'npm install, build, and test'
+        run: |
+          npm install
+          npm run build
+          zip -r artifact.zip .
+        working-directory:  "source"
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: artifact
+          path: "source/artifact.zip"
+
+  dev-infra:
+    needs: codeQL
+    environment: development
+    runs-on: ubuntu-latest
+    name: Dev infrastructure
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Azure Login
+        uses: Azure/login@v1.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Generate dns prefix for resources
+        run: |
+              DNS_PREFIX=catech$(echo ${{ env.AZURE_RESOURCE_GROUP_NAME }} | grep -o '[^-]*$')
+              echo "DNS_PREFIX=$DNS_PREFIX" >> $GITHUB_ENV
+
+      - name: Terraform state Storage
+        uses: Azure/cli@v1.0.3
+        id: state_storage
+        with:
+          inlineScript: |
+            chmod +x deploy/state_storage.sh
+            deploy/state_storage.sh
+        env:
+          DNS_PREFIX: ${{ env.DNS_PREFIX }}
+          AZURE_RESOURCE_GROUP_NAME: ${{ env.AZURE_RESOURCE_GROUP_NAME }}
+
+      - uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config="resource_group_name=${{ env.AZURE_RESOURCE_GROUP_NAME }}" -backend-config="storage_account_name=${{ steps.state_storage.outputs.account_name }}" -backend-config="container_name=${{ steps.state_storage.outputs.container_name }}"
+        working-directory: "deploy"
+
+      - name: Terraform Workspace 
+        id: workspace
+        run: terraform workspace select unemploymentdev || terraform workspace new unemploymentdev
+        working-directory: "deploy"
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+        working-directory: "deploy"
+           
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+        env:
+          TF_VAR_resource_group_name: ${{ env.AZURE_RESOURCE_GROUP_NAME }}
+          TF_VAR_dns_prefix: ${{ env.DNS_PREFIX }}
+          TF_VAR_environment: dev
+        working-directory: "deploy"
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve
+        env:
+          TF_VAR_resource_group_name: ${{ env.AZURE_RESOURCE_GROUP_NAME }}
+          TF_VAR_dns_prefix: ${{ env.DNS_PREFIX }}
+          TF_VAR_environment: dev
+        working-directory: "deploy"
+  
+  dev-policy-assessment:    
+      needs: dev-infra
+      runs-on: ubuntu-latest
+      name: Dev policy assessment
+      steps:
+      # Azure Login       
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}} 
+      
+      - name: Check for resource compliance
+        uses: azure/policy-compliance-scan@v0
+        with:
+          scopes: |
+            /subscriptions/${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}/resourceGroups/${{env.AZURE_RESOURCE_GROUP_NAME}}/providers/Microsoft.Web/sites/catechbuild2021-unemployment-dev-westus2
+
+  dev:
+    needs: [build, dev-policy-assessment]
+    runs-on: ubuntu-latest
+    name: Dev deployment
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Azure Login
+        uses: Azure/login@v1.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - uses: actions/download-artifact@master
+        with:
+          name: artifact
+          path: "source"
+
+      - name: Unzip artifact
+        run: unzip artifact.zip -d artifact
+        working-directory: "source"
+
+      - name: Generate dns prefix for resources
+        run: |
+              DNS_PREFIX=catech$(echo ${{ env.AZURE_RESOURCE_GROUP_NAME }} | grep -o '[^-]*$')
+              echo "DNS_PREFIX=$DNS_PREFIX" >> $GITHUB_ENV
+
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.DNS_PREFIX }}-unemployment-dev-${{env.AZURE_RESOURCE_GROUP_LOCATION}}
+          package: "source/artifact"
+
+  prod-infra:
+    needs: dev
+    environment: production
+    runs-on: ubuntu-latest
+    name: Prod infrastructure
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Azure Login
+        uses: Azure/login@v1.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Generate dns prefix for resources
+        run: |
+              DNS_PREFIX=catech$(echo ${{ env.AZURE_RESOURCE_GROUP_NAME }} | grep -o '[^-]*$')
+              echo "DNS_PREFIX=$DNS_PREFIX" >> $GITHUB_ENV
+
+      - name: Terraform state Storage
+        uses: Azure/cli@v1.0.3
+        id: state_storage
+        with:
+          inlineScript: |
+            chmod +x deploy/state_storage.sh
+            deploy/state_storage.sh
+        env:
+          DNS_PREFIX: ${{ env.DNS_PREFIX }}
+          AZURE_RESOURCE_GROUP_NAME: ${{ env.AZURE_RESOURCE_GROUP_NAME }}
+
+      - uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config="resource_group_name=${{ env.AZURE_RESOURCE_GROUP_NAME }}" -backend-config="storage_account_name=${{ steps.state_storage.outputs.account_name }}" -backend-config="container_name=${{ steps.state_storage.outputs.container_name }}"
+        working-directory: "deploy"
+
+      - name: Terraform Workspace 
+        id: workspace
+        run: terraform workspace select unemploymentprod || terraform workspace new unemploymentprod
+        working-directory: "deploy"
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+        working-directory: "deploy"
+           
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+        env:
+          TF_VAR_resource_group_name: ${{ env.AZURE_RESOURCE_GROUP_NAME }}
+          TF_VAR_dns_prefix: ${{ env.DNS_PREFIX }}
+          TF_VAR_environment: prod
+        working-directory: "deploy"
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve
+        env:
+          TF_VAR_resource_group_name: ${{ env.AZURE_RESOURCE_GROUP_NAME }}
+          TF_VAR_dns_prefix: ${{ env.DNS_PREFIX }}
+          TF_VAR_environment: prod
+        working-directory: "deploy"
+
+  prod-policy-assessment:    
+      needs: prod-infra
+      runs-on: ubuntu-latest
+      name: Prod policy assessment
+      steps:
+      # Azure Login       
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}} 
+      
+      - name: Check for resource compliance
+        uses: azure/policy-compliance-scan@v0
+        with:
+          scopes: |
+            /subscriptions/${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}/resourceGroups/${{env.AZURE_RESOURCE_GROUP_NAME}}/providers/Microsoft.Web/sites/catechbuild2021-unemployment-prod-eastus2
+            /subscriptions/${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}/resourceGroups/${{env.AZURE_RESOURCE_GROUP_NAME}}/providers/Microsoft.Web/sites/catechbuild2021-unemployment-prod-westus2
+
+  prod:
+    needs: prod-policy-assessment
+    runs-on: ubuntu-latest
+    name: Prod deployment
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Azure Login
+        uses: Azure/login@v1.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - uses: actions/download-artifact@master
+        with:
+          name: artifact
+          path: "source"
+
+      - name: Unzip artifact
+        run: unzip artifact.zip -d artifact
+        working-directory: "source"
+
+      - name: Generate dns prefix for resources
+        run: |
+              DNS_PREFIX=catech$(echo ${{ env.AZURE_RESOURCE_GROUP_NAME }} | grep -o '[^-]*$')
+              echo "DNS_PREFIX=$DNS_PREFIX" >> $GITHUB_ENV
+
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.DNS_PREFIX }}-unemployment-prod-${{env.AZURE_RESOURCE_GROUP_LOCATION}}
+          package: "source/artifact"
+
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.DNS_PREFIX }}-unemployment-prod-${{env.AZURE_RESOURCE_GROUP_LOCATION_SECONDARY}}
+          package: "source/artifact"
